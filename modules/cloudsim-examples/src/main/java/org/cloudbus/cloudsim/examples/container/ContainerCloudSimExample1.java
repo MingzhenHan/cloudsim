@@ -164,7 +164,7 @@ public class ContainerCloudSimExample1 {
             String logAddress = "~/Results";
 
             @SuppressWarnings("unused")
-			PowerContainerDatacenter e = (PowerContainerDatacenter) createDatacenter("datacenter",
+            PowerContainerDatacenter e = (PowerContainerDatacenter) createDatacenter("datacenter",
                     PowerContainerDatacenterCM.class, hostList, vmAllocationPolicy, containerAllocationPolicy,
                     getExperimentName("ContainerCloudSimExample-1", String.valueOf(overBookingFactor)),
                     ConstantsExamples.SCHEDULING_INTERVAL, logAddress,
@@ -409,11 +409,12 @@ public class ContainerCloudSimExample1 {
     public static List<ContainerCloudlet> createContainerCloudletList(int brokerId, int numberOfCloudlets)
             throws FileNotFoundException {
         String inputFolderName = ContainerCloudSimExample1.class.getClassLoader().getResource("workload/planetlab").getPath();
+
+        java.io.File inputFolder1 = new java.io.File("modules/cloudsim-examples/src/main/resources/workload/planetlab/");
         ArrayList<ContainerCloudlet> cloudletList = new ArrayList<ContainerCloudlet>();
         long fileSize = 300L;
         long outputSize = 300L;
         UtilizationModelNull utilizationModelNull = new UtilizationModelNull();
-        java.io.File inputFolder1 = new java.io.File(inputFolderName);
         java.io.File[] files1 = inputFolder1.listFiles();
         int createdCloudlets = 0;
         for (java.io.File aFiles1 : files1) {
