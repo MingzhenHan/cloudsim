@@ -188,6 +188,14 @@ public class Cloudlet {
     protected int guestId;
 
     /**
+     * 主机ID
+     *
+     * 用于唯一标识一个主机在分布式系统或网络环境中，hostId可以帮助定位和区分不同的主机
+     * 这个字段通常是私有的，以确保封装性，防止外部直接访问，通过getter和setter方法来获取和设置值
+     */
+    private int hostId;
+
+    /**
      * The id of the container is planned to execute the cloudlet.
      * It may be -1, if containers are not in use
      */
@@ -1450,6 +1458,14 @@ public class Cloudlet {
 
     @Deprecated
     public void setVmId(int vmId) { setGuestId(vmId); }
+
+    public int getHostId() {
+        return hostId;
+    }
+
+    public void setHostId(int hostId) {
+        this.hostId = hostId;
+    }
 
     /**
      * Gets the utilization model of cpu.

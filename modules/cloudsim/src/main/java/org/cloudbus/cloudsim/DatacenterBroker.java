@@ -382,6 +382,7 @@ public class DatacenterBroker extends SimEntity {
 			}
 			
 			cloudlet.setGuestId(vm.getId());
+			cloudlet.setHostId(vm.getHost().getId());
 			sendNow(getVmsToDatacentersMap().get(vm.getId()), CloudActionTags.CLOUDLET_SUBMIT, cloudlet);
 			cloudletsSubmitted++;
 			guestIndex = (guestIndex + 1) % getGuestsCreatedList().size();

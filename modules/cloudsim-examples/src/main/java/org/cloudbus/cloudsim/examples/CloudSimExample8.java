@@ -10,26 +10,7 @@
 
 package org.cloudbus.cloudsim.examples;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.cloudbus.cloudsim.Cloudlet;
-import org.cloudbus.cloudsim.CloudletSchedulerTimeShared;
-import org.cloudbus.cloudsim.Datacenter;
-import org.cloudbus.cloudsim.DatacenterBroker;
-import org.cloudbus.cloudsim.DatacenterCharacteristics;
-import org.cloudbus.cloudsim.Host;
-import org.cloudbus.cloudsim.Log;
-import org.cloudbus.cloudsim.Pe;
-import org.cloudbus.cloudsim.Storage;
-import org.cloudbus.cloudsim.UtilizationModel;
-import org.cloudbus.cloudsim.UtilizationModelFull;
-import org.cloudbus.cloudsim.Vm;
-import org.cloudbus.cloudsim.VmAllocationPolicySimple;
-import org.cloudbus.cloudsim.VmSchedulerTimeShared;
+import org.cloudbus.cloudsim.*;
 import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.core.CloudSimTags;
 import org.cloudbus.cloudsim.core.SimEntity;
@@ -37,6 +18,13 @@ import org.cloudbus.cloudsim.core.SimEvent;
 import org.cloudbus.cloudsim.provisioners.BwProvisionerSimple;
 import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
 import org.cloudbus.cloudsim.provisioners.RamProvisionerSimple;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.List;
+
+import static org.cloudbus.cloudsim.examples.power.Helper.printCloudletList;
 
 /**
  * An example showing how to create simulation entities
@@ -255,35 +243,6 @@ public class CloudSimExample8 {
 		return broker;
 	}
 
-	/**
-	 * Prints the Cloudlet objects
-	 * @param list  list of Cloudlets
-	 */
-	private static void printCloudletList(List<Cloudlet> list) {
-		int size = list.size();
-		Cloudlet cloudlet;
-
-		String indent = "    ";
-		Log.println();
-		Log.println("========== OUTPUT ==========");
-		Log.println("Cloudlet ID" + indent + "STATUS" + indent +
-				"Data center ID" + indent + "VM ID" + indent + indent + "Time" + indent + "Start Time" + indent + "Finish Time");
-
-		DecimalFormat dft = new DecimalFormat("###.##");
-        for (Cloudlet value : list) {
-            cloudlet = value;
-            Log.print(indent + cloudlet.getCloudletId() + indent + indent);
-
-            if (cloudlet.getStatus() == Cloudlet.CloudletStatus.SUCCESS) {
-                Log.print("SUCCESS");
-
-                Log.println(indent + indent + cloudlet.getResourceId() + indent + indent + indent + cloudlet.getGuestId() +
-                        indent + indent + indent + dft.format(cloudlet.getActualCPUTime()) +
-                        indent + indent + dft.format(cloudlet.getExecStartTime()) + indent + indent + indent + dft.format(cloudlet.getExecFinishTime()));
-            }
-        }
-
-	}
 
 	public static class GlobalBroker extends SimEntity {
 		protected enum ExampleTags implements CloudSimTags {
