@@ -1,14 +1,5 @@
 package org.cloudbus.cloudsim.examples;
 
-/*
- * Title:        CloudSim Toolkit
- * Description:  CloudSim (Cloud Simulation) Toolkit for Modeling and Simulation
- *               of Clouds
- * Licence:      GPL - http://www.gnu.org/copyleft/gpl.html
- *
- * Copyright (c) 2009, The University of Melbourne, Australia
- */
-
 import org.cloudbus.cloudsim.*;
 import org.cloudbus.cloudsim.container.core.Container;
 import org.cloudbus.cloudsim.core.CloudSim;
@@ -27,9 +18,11 @@ import java.util.List;
 import static org.cloudbus.cloudsim.examples.power.Helper.printCloudletList;
 
 /**
- * A simple example showing the use of containers (ContainerCloudSim) and Vms (base CloudSim) in the same contexts.
+ * A simple example showing the use of containers (ContainerCloudSim).
+ * 可以只用vm，也可以只用container,也可以同时使用。
  */
-public class CloudSimMultiExtensionExample1 {
+
+public class CloudSimOnlyContainerExample {
     /**
      * The host list.
      */
@@ -81,33 +74,17 @@ public class CloudSimMultiExtensionExample1 {
             peList.add(new Pe(0, new PeProvisionerSimple(mips)));
 
             hostList.add(
-                    new Host(hostId, new RamProvisionerSimple(ram), new BwProvisionerSimple(bw), storage, peList, new VmSchedulerSpaceShared(peList))
+                    new Host(hostId, new RamProvisionerSimple(ram), new BwProvisionerSimple(bw), storage, peList, new VmSchedulerTimeShared(peList))
             );
 
-            // Create Vms
-            vmlist = new ArrayList<>();
 
-            mips = 1000;
+//            mips = 1000;
             long size = 10000; // image size (MB)
-            ram = 512; // vm memory (MB)
-            bw = 1000;
+//            ram = 512; // vm memory (MB)
+//            bw = 1000;
             int pesNumber = 1; // number of cpus
-            String vmm = "Xen"; // VMM name
+//            String vmm = "Xen"; // VMM name
 
-            // create Vm (not eligible for containers)
-            //VirtualEntity vm1 = new Vm(0, brokerId, mips, pesNumber, ram, bw, size, vmm, new CloudletSchedulerSpaceShared());
-            //vmlist.add(vm1);
-
-            // create Vm (eligible for containers)
-            peList = new ArrayList<>();
-            peList.add(new Pe(0, new PeProvisionerSimple(mips)));
-            VirtualEntity vm2 = new Vm(1, brokerId, mips, pesNumber, ram, bw, size, vmm, new CloudletSchedulerSpaceShared(),
-                    new VmSchedulerTimeShared(peList),
-                    new RamProvisionerSimple(ram),
-                    new BwProvisionerSimple(bw),
-                    peList);
-            vmlist.add(vm2);
-            hostList.add(vm2);
 
             // Create container
             containerlist = new ArrayList<>();
@@ -123,7 +100,6 @@ public class CloudSimMultiExtensionExample1 {
             createDatacenter("Datacenter_0");
 
             // submit vm and container list to the broker
-            broker.submitGuestList(vmlist);
             broker.submitGuestList(containerlist);
 
             // Create Cloudlets
@@ -221,11 +197,5 @@ public class CloudSimMultiExtensionExample1 {
         }
         return broker;
     }
-
-    /**
-     * Prints the Cloudlet objects.
-     *
-     * @param list list of Cloudlets
-     */
 
 }
