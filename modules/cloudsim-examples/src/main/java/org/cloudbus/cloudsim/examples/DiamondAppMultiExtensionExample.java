@@ -10,12 +10,12 @@ import org.cloudbus.cloudsim.provisioners.BwProvisionerSimple;
 import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
 import org.cloudbus.cloudsim.provisioners.RamProvisionerSimple;
 
-import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
+
+import static org.cloudbus.cloudsim.examples.power.Helper.printCloudletList;
 
 public class DiamondAppMultiExtensionExample {
 
@@ -184,37 +184,6 @@ public class DiamondAppMultiExtensionExample {
     }
 
     /**
-     * Prints the Cloudlet objects.
-     *
-     * @param list list of Cloudlets
-     * @throws IOException
-     */
-    private static void printCloudletList(List<Cloudlet> list) throws IOException {
-        int size = list.size();
-        Cloudlet cloudlet;
-        String indent = "    ";
-        Log.println();
-        Log.println("========== OUTPUT ==========");
-        Log.println("Cloudlet ID" + indent + "STATUS" + indent + "Data center ID" + indent + "VM ID"
-                + indent + "Time" + indent + "Start Time" + indent + "Finish Time");
-
-        DecimalFormat dft = new DecimalFormat("###.##");
-        for (Cloudlet value : list) {
-            cloudlet = value;
-            Log.print(indent + cloudlet.getCloudletId() + indent + indent);
-
-            if (cloudlet.getStatus() == Cloudlet.CloudletStatus.SUCCESS) {
-                Log.print("SUCCESS");
-                Log.println(indent + indent + cloudlet.getResourceId() + indent + indent + indent
-                        + cloudlet.getGuestId() + indent + indent + dft.format(cloudlet.getActualCPUTime())
-                        + indent + indent + dft.format(cloudlet.getExecStartTime()) + indent + indent
-                        + dft.format(cloudlet.getExecFinishTime()));
-            }
-        }
-
-    }
-
-    /**
      * Creates virtual machines in a datacenter
      *
      * @param datacenterId The id of the datacenter where to create the VMs.
@@ -335,7 +304,7 @@ public class DiamondAppMultiExtensionExample {
 
         //
         clc.addRecvStage(cla);
-        clc.addExecutionStage(2000);
+        clc.addExecutionStage(1000);
         clc.addSendStage(1000, cld);
 
         //
