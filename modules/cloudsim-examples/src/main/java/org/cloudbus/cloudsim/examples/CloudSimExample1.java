@@ -126,12 +126,13 @@ public class CloudSimExample1 {
             // Sixth step: Starts the simulation
             CloudSim.startSimulation();
 
-            printRecordQueue();
+
             CloudSim.stopSimulation();
 
             //Final step: Print results when simulation is over
             List<Cloudlet> newList = broker.getCloudletReceivedList();
             printCloudletList(newList);
+            printRecordQueue();
 
             Log.println("CloudSimExample1 finished!");
         } catch (Exception e) {

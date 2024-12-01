@@ -729,9 +729,9 @@ public class Helper {
             System.out.println(
                     "Event ID: " + event.getType() +
                             ", Time: " + event.eventTime() +
+                            ", Tag: " + event.getTag() +
                             ", Source Entity ID: " + event.getSource() +
                             ", Destination Entity ID: " + event.getDestination() +
-                            ", Tag: " + event.getTag() +
                             ", Data: " + event.getData() +
                             ", End Waiting Time: " + event.endWaitingTime()
             );

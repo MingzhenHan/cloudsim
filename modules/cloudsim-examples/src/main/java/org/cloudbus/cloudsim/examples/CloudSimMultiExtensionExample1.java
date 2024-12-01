@@ -90,7 +90,7 @@ public class CloudSimMultiExtensionExample1 {
             mips = 1000;
             long size = 10000; // image size (MB)
             ram = 512; // vm memory (MB)
-            bw = 1000;
+            bw = 1000;// vm bandwidth
             int pesNumber = 1; // number of cpus
             String vmm = "Xen"; // VMM name
 
