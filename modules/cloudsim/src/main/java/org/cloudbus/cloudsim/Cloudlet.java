@@ -7,12 +7,12 @@
  */
 package org.cloudbus.cloudsim;
 
+import org.cloudbus.cloudsim.core.CloudSim;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.cloudbus.cloudsim.core.CloudSim;
 
 /**
  * Cloudlet is a user activity to be deployed on a Cloud Resource. It stores, despite all the
@@ -25,34 +25,54 @@ import org.cloudbus.cloudsim.core.CloudSim;
  */
 public class Cloudlet {
     public enum CloudletStatus {
-        /** The Cloudlet has been created and added to the CloudletList object. */
+        /**
+         * The Cloudlet has been created and added to the CloudletList object.
+         */
         CREATED,
 
-        /** The Cloudlet has been assigned to a CloudResource object to be executed as planned. */
+        /**
+         * The Cloudlet has been assigned to a CloudResource object to be executed as planned.
+         */
         READY,
 
-        /** The Cloudlet has moved to a Cloud node. */
+        /**
+         * The Cloudlet has moved to a Cloud node.
+         */
         QUEUED,
 
-        /** The Cloudlet is in execution in a Cloud node. */
+        /**
+         * The Cloudlet is in execution in a Cloud node.
+         */
         INEXEC,
 
-        /** The Cloudlet has been executed successfully. */
+        /**
+         * The Cloudlet has been executed successfully.
+         */
         SUCCESS,
 
-        /** The Cloudlet has failed. */
+        /**
+         * The Cloudlet has failed.
+         */
         FAILED,
 
-        /** The Cloudlet has been canceled. */
+        /**
+         * The Cloudlet has been canceled.
+         */
         CANCELED,
 
-        /** The Cloudlet has been paused. It can be resumed by changing the status into RESUMED. */
+        /**
+         * The Cloudlet has been paused. It can be resumed by changing the status into RESUMED.
+         */
         PAUSED,
 
-        /** The Cloudlet has been resumed from PAUSED state. */
+        /**
+         * The Cloudlet has been resumed from PAUSED state.
+         */
         RESUMED,
 
-        /** The cloudlet has failed due to a resource failure.*/
+        /**
+         * The cloudlet has failed due to a resource failure.
+         */
         FAILED_RESOURCE_UNAVAILABLE;
         public static final CloudletStatus[] values = values();
         // @NOTE: Convert an int to enum with CloudletStatus.values[i] (mind the array bounds)
@@ -70,7 +90,9 @@ public class Cloudlet {
      */
     private int userId;
 
-    /** The Cloudlet UID */
+    /**
+     * The Cloudlet UID
+     */
     private String uid;
 
     /**
@@ -127,7 +149,9 @@ public class Cloudlet {
      */
     private double execFinishTime;
 
-    /** The total time to complete this Cloudlet. */
+    /**
+     * The total time to complete this Cloudlet.
+     */
     private double totalCompletionTime;
     /**
      * The ID of a reservation made for this cloudlet.
@@ -189,7 +213,7 @@ public class Cloudlet {
 
     /**
      * 主机ID
-     *
+     * <p>
      * 用于唯一标识一个主机在分布式系统或网络环境中，hostId可以帮助定位和区分不同的主机
      * 这个字段通常是私有的，以确保封装性，防止外部直接访问，通过getter和setter方法来获取和设置值
      */
@@ -201,7 +225,7 @@ public class Cloudlet {
      */
     // TODO: Remo Andreoli: to be deprecated in favor of guestId
     protected int containerId = -1;
-    
+
     /**
      * The cost of each byte of bandwidth (bw) consumed.
      */
@@ -454,9 +478,13 @@ public class Cloudlet {
         updateUid();
     }
 
-    /** Backward compatibility with ResCloudlet class in CloudSim6G */
+    /**
+     * Backward compatibility with ResCloudlet class in CloudSim6G
+     */
     @Deprecated
-    public Cloudlet getCloudlet() { return this; }
+    public Cloudlet getCloudlet() {
+        return this;
+    }
 
     // ////////////////////// INTERNAL CLASS ///////////////////////////////////
 
@@ -467,7 +495,9 @@ public class Cloudlet {
      */
     public static class Resource {
 
-        /** Cloudlet's submission (arrival) time to a CloudResource. */
+        /**
+         * Cloudlet's submission (arrival) time to a CloudResource.
+         */
         public double arrivalTime = 0.0;
 
         /**
@@ -476,19 +506,29 @@ public class Cloudlet {
          */
         public double wallClockTime = 0.0;
 
-        /** The total time the Cloudlet spent being executed in a CloudResource. */
+        /**
+         * The total time the Cloudlet spent being executed in a CloudResource.
+         */
         public double actualCPUTime = 0.0;
 
-        /** Cost per second a CloudResource charge to execute this Cloudlet. */
+        /**
+         * Cost per second a CloudResource charge to execute this Cloudlet.
+         */
         public double costPerSec = 0.0;
 
-        /** Cloudlet's length finished so far on the CloudResource. */
+        /**
+         * Cloudlet's length finished so far on the CloudResource.
+         */
         public long cloudletFinishedSoFar = 0;
 
-        /** CloudResource id. */
+        /**
+         * CloudResource id.
+         */
         public int resourceId = -1;
 
-        /** CloudResource name. */
+        /**
+         * CloudResource name.
+         */
         public String resourceName = null;
 
     }
@@ -497,6 +537,7 @@ public class Cloudlet {
 
     /**
      * Update the cloudlet (override this to customise the cloudlet behavior).
+     *
      * @param info a custom object class you may need to implement the update logic
      * @return true if the update causes a variation in cloudlet length
      */
@@ -830,7 +871,9 @@ public class Cloudlet {
     }
 
     @Deprecated
-    public double getFinishTime() { return getExecFinishTime(); }
+    public double getFinishTime() {
+        return getExecFinishTime();
+    }
 
     /**
      * Gets the input file size of this Cloudlet <tt>BEFORE</tt> submitting to a
@@ -927,9 +970,14 @@ public class Cloudlet {
     }
 
     @Deprecated
-    public double getCloudletArrivalTime() { return getSubmissionTime(); }
+    public double getCloudletArrivalTime() {
+        return getSubmissionTime();
+    }
+
     @Deprecated
-    public double getArrivalTime() { return getSubmissionTime(); }
+    public double getArrivalTime() {
+        return getSubmissionTime();
+    }
 
     /**
      * Sets the execution start time of this Cloudlet inside a CloudResource.
@@ -979,7 +1027,9 @@ public class Cloudlet {
         }
     }
 
-    public CloudletStatus getStatus() { return status; }
+    public CloudletStatus getStatus() {
+        return status;
+    }
 
     /**
      * Sets the execution status of the Cloudlet.
@@ -1000,6 +1050,7 @@ public class Cloudlet {
 
         // sets Cloudlet's current status
         if (status == CloudletStatus.SUCCESS) {
+            //核心代码 设置cloudlet完成时间
             execFinishTime = CloudSim.clock();
         }
 
@@ -1029,6 +1080,7 @@ public class Cloudlet {
 
         // if a Cloudlet is now in execution
         if (status == Cloudlet.CloudletStatus.INEXEC || (prevStatus == Cloudlet.CloudletStatus.PAUSED && status == Cloudlet.CloudletStatus.RESUMED)) {
+            //核心代码 设置cloudlet执行开始时间
             setExecStartTime(clock);
             return true;
         }
@@ -1036,12 +1088,21 @@ public class Cloudlet {
         return false;
     }
 
-    public int getUserId() { return userId; }
+    public int getUserId() {
+        return userId;
+    }
 
-    public int getCloudletId() { return cloudletId; }
+    public int getCloudletId() {
+        return cloudletId;
+    }
 
-    public int getContainerId() { return containerId; }
-    public void setContainerId(int containerId) { this.containerId = containerId; }
+    public int getContainerId() {
+        return containerId;
+    }
+
+    public void setContainerId(int containerId) {
+        this.containerId = containerId;
+    }
 
     /**
      * Gets the string representation of the current Cloudlet status code.
@@ -1084,7 +1145,9 @@ public class Cloudlet {
         return getCloudletLength() * getNumberOfPes();
     }
 
-    public double getExecStartTime() { return execStartTime; }
+    public double getExecStartTime() {
+        return execStartTime;
+    }
 
     /**
      * Gets the cost/sec of running the Cloudlet in the latest CloudResource.
@@ -1228,7 +1291,7 @@ public class Cloudlet {
             return 0;
         }
 
-        return (long) Math.floor(1.0*length);
+        return (long) Math.floor(1.0 * length);
     }
 
     /**
@@ -1449,15 +1512,23 @@ public class Cloudlet {
         return result;
     }
 
-    public int getGuestId() { return guestId; }
+    public int getGuestId() {
+        return guestId;
+    }
 
     @Deprecated
-    public int getVmId() {return getGuestId(); }
+    public int getVmId() {
+        return getGuestId();
+    }
 
-    public void setGuestId(int guestId) { this.guestId = guestId; }
+    public void setGuestId(int guestId) {
+        this.guestId = guestId;
+    }
 
     @Deprecated
-    public void setVmId(int vmId) { setGuestId(vmId); }
+    public void setVmId(int vmId) {
+        setGuestId(vmId);
+    }
 
     public int getHostId() {
         return hostId;
@@ -1530,7 +1601,9 @@ public class Cloudlet {
         return uid;
     }
 
-    /** update uid after change of cloudletId or userId */
+    /**
+     * update uid after change of cloudletId or userId
+     */
     private void updateUid() {
         uid = getUserId() + "-" + getCloudletId();
     }
@@ -1565,7 +1638,11 @@ public class Cloudlet {
         return getUtilizationModelBw().getUtilization(time);
     }
 
-    public List<String> getRequiredFiles() { return requiredFiles; }
+    public List<String> getRequiredFiles() {
+        return requiredFiles;
+    }
 
-    protected void setRequiredFiles(List<String> requiredFiles) { this.requiredFiles = requiredFiles; }
+    protected void setRequiredFiles(List<String> requiredFiles) {
+        this.requiredFiles = requiredFiles;
+    }
 }
