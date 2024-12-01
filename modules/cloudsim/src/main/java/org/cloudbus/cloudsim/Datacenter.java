@@ -223,7 +223,8 @@ public class Datacenter extends SimEntity {
             processDataDelete(ev, true);
         } else if (tag == CloudActionTags.VM_DATACENTER_EVENT) {
             //核心代码：我在cloudlet_submit事件的processEvent内，实际上会给数据中心发送VM_DATACENTER_EVENT事件
-            //CLOUDLET_SUBMIT和VM_DATACENTER_EVENT都会调用updateCloudletProcessing()
+            //还有就是 VM_DATACENTER_EVENT事件本身，也会给数据中心发送VM_DATACENTER_EVENT事件
+            //CLOUDLET_SUBMIT和VM_DATACENTER_EVENT都会调用updateCloudletProcessing() 核心函数
             updateCloudletProcessing();
             checkCloudletCompletion();
 
