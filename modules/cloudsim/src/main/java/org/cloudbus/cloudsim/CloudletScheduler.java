@@ -11,6 +11,7 @@ package org.cloudbus.cloudsim;
 import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.lists.CloudletList;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -105,12 +106,12 @@ public abstract class CloudletScheduler {
     public double updateCloudletsProcessing(double currentTime, List<Double> mipsShare) {
         setCurrentMipsShare(mipsShare);
 
-        double timeSpan = currentTime - getPreviousTime(); // time since last update
+        BigDecimal timeSpan = BigDecimal.valueOf(currentTime).subtract(BigDecimal.valueOf(getPreviousTime()));// time since last update
 
         // Update cloudlets in exec list
         for (Cloudlet cl : getCloudletExecList()) {
             if (cl.updateCloudlet(null)) {
-                cl.updateCloudletFinishedSoFar((long) (timeSpan *
+                cl.updateCloudletFinishedSoFar((long) (timeSpan.doubleValue() *
                         getTotalCurrentAllocatedMipsForCloudlet(cl, currentTime)));
             }
         }
