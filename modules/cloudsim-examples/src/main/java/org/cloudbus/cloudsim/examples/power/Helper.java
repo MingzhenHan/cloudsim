@@ -1,6 +1,8 @@
 package org.cloudbus.cloudsim.examples.power;
 
 import org.cloudbus.cloudsim.*;
+import org.cloudbus.cloudsim.core.CloudSim;
+import org.cloudbus.cloudsim.core.SimEvent;
 import org.cloudbus.cloudsim.power.PowerDatacenter;
 import org.cloudbus.cloudsim.power.PowerHost;
 import org.cloudbus.cloudsim.power.PowerVm;
@@ -716,6 +718,23 @@ public class Helper {
                         dft.format(cloudlet.getExecStartTime()),
                         dft.format(cloudlet.getExecFinishTime())));
             }
+        }
+    }
+
+    public static void printRecordQueue() {
+        // 输出 record 中的所有事件
+        System.out.println("Events in the FutureQueue:");
+        for (Iterator<SimEvent> it = CloudSim.record.iterator(); it.hasNext(); ) {
+            SimEvent event = it.next();
+            System.out.println(
+                    "Event ID: " + event.getType() +
+                            ", Time: " + event.eventTime() +
+                            ", Source Entity ID: " + event.getSource() +
+                            ", Destination Entity ID: " + event.getDestination() +
+                            ", Tag: " + event.getTag() +
+                            ", Data: " + event.getData() +
+                            ", End Waiting Time: " + event.endWaitingTime()
+            );
         }
     }
 
