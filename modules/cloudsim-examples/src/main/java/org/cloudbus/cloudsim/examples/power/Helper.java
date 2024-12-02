@@ -742,7 +742,7 @@ public class Helper {
     public static void redirectOutput() {
         try {
             // 创建文件输出流
-            FileOutputStream fileOut = new FileOutputStream("output.log", true);
+            FileOutputStream fileOut = new FileOutputStream("output.log", false);
 
             // 创建自定义输出流，将控制台输出流和文件输出流合并
             OutputStream combinedOut = new OutputStream() {
