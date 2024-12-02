@@ -225,7 +225,7 @@ public class Datacenter extends SimEntity {
             //核心代码：我在cloudlet_submit事件的processEvent内，实际上会给数据中心发送VM_DATACENTER_EVENT事件
             //还有就是 VM_DATACENTER_EVENT事件本身，也会给数据中心发送VM_DATACENTER_EVENT事件
             //CLOUDLET_SUBMIT和VM_DATACENTER_EVENT都会调用updateCloudletProcessing() 核心函数
-            updateCloudletProcessing();
+            updateCloudletProcessing(ev);
             checkCloudletCompletion();
 
             // other unknown tags are processed by this method
@@ -823,6 +823,50 @@ public class Datacenter extends SimEntity {
         // R: for term is to allow loop at simulation start. Otherwise, one initial
         // simulation step is skipped and schedulers are not properly initialized
         if (CloudSim.clock() < 0.111 || CloudSim.clock() >= getLastProcessTime() + CloudSim.getMinTimeBetweenEvents()) {
+            double smallerTime = Double.MAX_VALUE;
+            for (HostEntity host : getVmAllocationPolicy().getHostList()) {
+                // inform VMs to update processing
+                double time = host.updateCloudletsProcessing(CloudSim.clock());
+                // what time do we expect that the next cloudlet will finish?
+                if (time < smallerTime) {
+                    smallerTime = time;
+                }
+            }
+            // gurantees a minimal interval before scheduling the event
+//            为什么+0.1
+//            加 0.01 是为了确保 smallerTime 至少比当前时间多出最小事件间隔时间加上一个小小的缓冲。这样可以避免由于浮点数精度问题导致的事件过于频繁地被触发。
+//提高稳定性：
+//通过增加一个小小的缓冲时间，可以提高系统的稳定性和可靠性，避免因时间间隔过短而导致的潜在问题。例如，如果两个事件几乎同时发生，加 0.01 可以帮助避免这些事件在非常接近的时间点被调度，从而减少调度冲突和系统负载。
+//示例
+//假设 CloudSim.getMinTimeBetweenEvents() 返回 0.1，当前时间 CloudSim.clock() 是 10.0，并且 smallerTime 计算结果是 10.099999999999998：
+//  if (10.099999999999998 < 10.0 + 0.1) { // 10.0 + 0.1 = 10.1
+//      smallerTime = 10.1;
+//  }
+//  条件不成立，smallerTime 保持为 10.099999999999998，这可能会导致事件过于频繁地被触发。
+
+            //这里的最短时间间隔是0.02
+            if (smallerTime < CloudSim.clock() + CloudSim.getMinTimeBetweenEvents() + 0.01) {
+                smallerTime = CloudSim.clock() + CloudSim.getMinTimeBetweenEvents() + 0.01;
+            }
+            if (smallerTime != Double.MAX_VALUE) {
+                schedule(getId(), (smallerTime - CloudSim.clock()), CloudActionTags.VM_DATACENTER_EVENT);
+            }
+            setLastProcessTime(CloudSim.clock());
+        }
+    }
+
+    /*
+     * updateCloudletProcessing的重载函数 用于特殊情况下(NETWORK_PKT_REACHED_HOST触发的VM_DATACENTER_EVENT)
+     * */
+
+    protected void updateCloudletProcessing(SimEvent ev) {
+        //CLOUDLET_SUBMIT和VM_DATACENTER_EVENT都会调用updateCloudletProcessing()
+
+        // if some time passed since last processing
+        // R: for term is to allow loop at simulation start. Otherwise, one initial
+        // simulation step is skipped and schedulers are not properly initialized
+        //TODO:may lead to bug
+        if (CloudSim.clock() < 0.111 || ev.getData() == "receive pkg" || CloudSim.clock() >= getLastProcessTime() + CloudSim.getMinTimeBetweenEvents()) {
             double smallerTime = Double.MAX_VALUE;
             for (HostEntity host : getVmAllocationPolicy().getHostList()) {
                 // inform VMs to update processing
