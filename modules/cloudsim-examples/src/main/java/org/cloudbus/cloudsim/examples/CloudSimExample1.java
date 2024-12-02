@@ -20,8 +20,7 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.cloudbus.cloudsim.examples.power.Helper.printCloudletList;
-import static org.cloudbus.cloudsim.examples.power.Helper.printRecordQueue;
+import static org.cloudbus.cloudsim.examples.power.Helper.*;
 
 /**
  * A simple example showing how to create a data center with one host and run one cloudlet on it.
@@ -42,6 +41,7 @@ public class CloudSimExample1 {
      * @param args the args
      */
     public static void main(String[] args) {
+        redirectOutput();
         Log.println("Starting CloudSimExample1...");
 
         try {

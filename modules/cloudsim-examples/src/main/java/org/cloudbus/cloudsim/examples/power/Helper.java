@@ -12,10 +12,8 @@ import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
 import org.cloudbus.cloudsim.provisioners.RamProvisionerSimple;
 import org.cloudbus.cloudsim.util.MathUtil;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -735,6 +733,54 @@ public class Helper {
                             ", Data: " + event.getData() +
                             ", End Waiting Time: " + event.endWaitingTime()
             );
+        }
+    }
+
+    /*
+     * 输出重定向到控制台+文件
+     * */
+    public static void redirectOutput() {
+        try {
+            // 创建文件输出流
+            FileOutputStream fileOut = new FileOutputStream("output.log", true);
+
+            // 创建自定义输出流，将控制台输出流和文件输出流合并
+            OutputStream combinedOut = new OutputStream() {
+                private final OutputStream console = System.out;
+                private final OutputStream file = fileOut;
+
+                @Override
+                public void write(int b) throws IOException {
+                    console.write(b);
+                    file.write(b);
+                }
+
+                @Override
+                public void write(byte[] b, int off, int len) throws IOException {
+                    console.write(b, off, len);
+                    file.write(b, off, len);
+                }
+
+                @Override
+                public void flush() throws IOException {
+                    console.flush();
+                    file.flush();
+                }
+
+                @Override
+                public void close() throws IOException {
+                    console.close();
+                    file.close();
+                }
+            };
+
+            // 重定向标准输出流和标准错误流
+            System.setOut(new PrintStream(combinedOut, true));
+            System.setErr(new PrintStream(combinedOut, true));
+
+        } catch (IOException e) {
+            // 记录日志而不是简单地打印堆栈跟踪
+            System.err.println("重定向输出时发生错误: " + e.getMessage());
         }
     }
 
