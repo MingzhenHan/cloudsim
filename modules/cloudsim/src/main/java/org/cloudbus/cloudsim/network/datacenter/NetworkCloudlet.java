@@ -94,6 +94,7 @@ public class NetworkCloudlet extends Cloudlet implements Comparable<NetworkCloud
 
     @Override
     public boolean updateCloudlet(Object info) {
+        //核心代码：NetworkCloudlet下的分阶段处理
         if (currStageNum >= stages.size()) {
             return false;
         }
@@ -127,6 +128,7 @@ public class NetworkCloudlet extends Cloudlet implements Comparable<NetworkCloud
             if (it.hasNext()) {
                 pkt = it.next();
                 // Assumption: packet will not arrive in the same cycle
+                //TODO: maybe bug here
                 if (pkt.receiverGuestId == getGuestId()) {
                     pkt.recvTime = CloudSim.clock();
                     st.setTime(CloudSim.clock() - pkt.sendTime);

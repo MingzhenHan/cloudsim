@@ -35,7 +35,7 @@ public class NetworkConstants {
     public static final int COMMUNICATION_LENGTH = 1;
 
 
-    public static long BandWidthEdgeAgg = 100 * 1024 * 1024;// 100 Megabits 100M交换机
+    public static long BandWidthEdgeAgg = 100 * 1024 * 1024;// 100 Megabits 100M交换机 单位bps
     public static long BandWidthEdgeHost = 100 * 1024 * 1024;//
     public static long BandWidthAggRoot = 20 * 1024 * 1024 * 2;// 40gb
 

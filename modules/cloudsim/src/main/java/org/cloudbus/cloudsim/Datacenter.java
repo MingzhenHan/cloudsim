@@ -844,6 +844,7 @@ public class Datacenter extends SimEntity {
 //  }
 //  条件不成立，smallerTime 保持为 10.099999999999998，这可能会导致事件过于频繁地被触发。
 
+            //这里的最短时间间隔是0.02
             if (smallerTime < CloudSim.clock() + CloudSim.getMinTimeBetweenEvents() + 0.01) {
                 smallerTime = CloudSim.clock() + CloudSim.getMinTimeBetweenEvents() + 0.01;
             }
