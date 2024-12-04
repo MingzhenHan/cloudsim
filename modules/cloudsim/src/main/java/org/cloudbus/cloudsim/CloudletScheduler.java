@@ -140,6 +140,10 @@ public abstract class CloudletScheduler {
         double nextEvent = Double.MAX_VALUE;
         for (Cloudlet cl : getCloudletExecList()) {
             double estimatedFinishTime = getEstimatedFinishTime(cl, currentTime);
+            //TODO:may lead to bug(改造了VM_DC_EVENT 让其不忙等)
+//            if (estimatedFinishTime == currentTime) {
+//                return 0.0;
+//            }
             if (estimatedFinishTime - currentTime < CloudSim.getMinTimeBetweenEvents()) {
                 estimatedFinishTime = currentTime + CloudSim.getMinTimeBetweenEvents();
             }
