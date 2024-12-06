@@ -15,7 +15,7 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.cloudbus.cloudsim.examples.power.Helper.printCloudletList;
+import static org.cloudbus.cloudsim.examples.power.Helper.*;
 
 public class DiamondAppMultiExtensionExample {
 
@@ -44,6 +44,8 @@ public class DiamondAppMultiExtensionExample {
      * @param args the args
      */
     public static void main(String[] args) {
+
+        redirectOutput();
 
         Log.println("Starting DiamondAppExample...");
 
@@ -82,6 +84,8 @@ public class DiamondAppMultiExtensionExample {
 
             // Final step: Print results when simulation is over
             List<Cloudlet> newList = broker.getCloudletReceivedList();
+
+            printRecordQueue();
             printCloudletList(newList);
             System.out.println("numberofcloudlet " + newList.size() + " Data transfered "
                     + datacenter.totalDataTransfer);
@@ -262,55 +266,56 @@ public class DiamondAppMultiExtensionExample {
         clb.setGuestId(guestList.get(1).getId());
         appCloudlet.cList.add(clb);
 
-        NetworkCloudlet clc = new NetworkCloudlet(
-                NetworkConstants.currentCloudletId,
-                0,
-                1,
-                fileSize,
-                outputSize,
-                utilizationModel,
-                utilizationModel,
-                utilizationModel);
-        NetworkConstants.currentCloudletId++;
-        clc.setUserId(broker.getId());
-        clc.setGuestId(guestList.get(2).getId());
-        appCloudlet.cList.add(clc);
-
-        NetworkCloudlet cld = new NetworkCloudlet(
-                NetworkConstants.currentCloudletId,
-                0,
-                1,
-                fileSize,
-                outputSize,
-                utilizationModel,
-                utilizationModel,
-                utilizationModel);
-        NetworkConstants.currentCloudletId++;
-        cld.setUserId(broker.getId());
-        cld.setGuestId(guestList.get(3).getId());
-        appCloudlet.cList.add(cld);
+//        NetworkCloudlet clc = new NetworkCloudlet(
+//                NetworkConstants.currentCloudletId,
+//                0,
+//                1,
+//                fileSize,
+//                outputSize,
+//                utilizationModel,
+//                utilizationModel,
+//                utilizationModel);
+//        NetworkConstants.currentCloudletId++;
+//        clc.setUserId(broker.getId());
+//        clc.setGuestId(guestList.get(2).getId());
+//        appCloudlet.cList.add(clc);
+//
+//        NetworkCloudlet cld = new NetworkCloudlet(
+//                NetworkConstants.currentCloudletId,
+//                0,
+//                1,
+//                fileSize,
+//                outputSize,
+//                utilizationModel,
+//                utilizationModel,
+//                utilizationModel);
+//        NetworkConstants.currentCloudletId++;
+//        cld.setUserId(broker.getId());
+//        cld.setGuestId(guestList.get(3).getId());
+//        appCloudlet.cList.add(cld);
 
 
         // Configure task stages within the cloudlets
         //
         cla.addExecutionStage(1000);
-        cla.addSendStage(1000, clb);
-        cla.addSendStage(1000, clc);
+        cla.addSendStage(1000, clb);//pkgsize
+//        cla.addSendStage(1000, clc);
+
 
         //
         clb.addRecvStage(cla);
         clb.addExecutionStage(1000);
-        clb.addSendStage(1000, cld);
-
-        //
-        clc.addRecvStage(cla);
-        clc.addExecutionStage(1000);
-        clc.addSendStage(1000, cld);
-
-        //
-        cld.addRecvStage(clb);
-        cld.addRecvStage(clc);
-        cld.addExecutionStage(1000);
+//        clb.addSendStage(1000, cld);
+//
+//        //
+//        clc.addRecvStage(cla);
+//        clc.addExecutionStage(500);
+//        clc.addSendStage(1000, cld);
+//
+//        //
+//        cld.addRecvStage(clb);
+//        cld.addRecvStage(clc);
+//        cld.addExecutionStage(1000);
     }
 
     private static void CreateNetwork(NetworkDatacenter dc) {
